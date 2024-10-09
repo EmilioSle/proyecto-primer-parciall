@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es"> <!-- Define el idioma del contenido como español -->
+<head>
+    <meta charset="UTF-8"> <!-- Establece la codificación de caracteres a UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Configura el viewport para dispositivos móviles -->
+    <link rel="stylesheet" href="index.css"> <!-- Vincula la hoja de estilos CSS -->
+    <title>Registro de Recepcionista</title> <!-- Título de la página que se muestra en la pestaña del navegador -->
+    <style>
+        /* Estilos */
+        body {
+            font-family: Arial, sans-serif; /* Define la fuente del cuerpo */
+            margin: 0; /* Elimina los márgenes por defecto */
+            padding: 0; /* Elimina el padding por defecto */
+            background-color: #f4f4f9; /* Establece un color de fondo claro */
+            display: flex; /* Utiliza Flexbox para alinear el contenido */
+            justify-content: center; /* Centra el contenido horizontalmente */
+            align-items: center; /* Centra el contenido verticalmente */
+            height: 100vh; /* Establece la altura del cuerpo al 100% de la ventana del navegador */
+            position: relative; /* Establece la posición relativa para el uso de elementos absolutos */
+            overflow: hidden; /* Oculta el contenido que sobresale */
+            opacity: 0; /* Inicialmente oculta el cuerpo */
+            animation: fadeIn 1s forwards; /* Aplica una animación de desvanecimiento al cargar la página */
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1; /* Al final de la animación, la opacidad es 1 */
+            }
+        }
+
+        #particles-js {
+            position: absolute; /* Posiciona el fondo de partículas absolutamente */
+            width: 100%; /* Establece el ancho al 100% */
+            height: 100%; /* Establece la altura al 100% */
+            top: 0; /* Posiciona en la parte superior */
+            left: 0; /* Posiciona a la izquierda */
+            z-index: -1; /* Envía el elemento al fondo */
+        }
+
+        .container {
+            display: flex; /* Utiliza Flexbox para organizar los elementos */
+            gap: 50px; /* Espacio entre los elementos hijos */
+            text-align: center; /* Centra el texto */
+            justify-content: center; /* Centra los elementos horizontalmente */
+            align-items: flex-start; /* Alinea los elementos al inicio del contenedor */
+        }
+
+        .form-container {
+            background: #fff; /* Establece el color de fondo blanco para el contenedor del formulario */
+            padding: 40px; /* Agrega padding interno */
+            border-radius: 8px; /* Bordes redondeados */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Agrega sombra al contenedor */
+            animation: slideIn 0.5s ease-out; /* Aplica una animación de deslizamiento al cargar el contenedor */
+            width: 300px; /* Establece un ancho fijo para el formulario */
+            display: flex; /* Utiliza Flexbox para organizar el contenido */
+            flex-direction: column; /* Organiza el contenido en una columna */
+            align-items: center; /* Centra los elementos en la columna */
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px); /* Desplaza el contenedor 20px hacia arriba al inicio */
+                opacity: 0; /* Inicia con opacidad 0 */
+            }
+            to {
+                transform: translateY(0); /* Regresa a la posición original */
+                opacity: 1; /* Al final, la opacidad es 1 */
+            }
+        }
+
+        .title {
+            font-size: 1.8em; /* Tamaño de fuente del título */
+            margin-bottom: 20px; /* Margen inferior */
+            color: #333; /* Color del texto */
+        }
+
+        input, select {
+            margin: 10px 0; /* Margen vertical para campos de entrada y selección */
+            padding: 10px; /* Padding interno para campos */
+            width: 100%; /* Ancho completo para los campos */
+            border: 1px solid #ccc; /* Borde gris claro */
+            border-radius: 5px; /* Bordes redondeados */
+        }
+
+        button {
+            padding: 10px 20px; /* Padding interno para botones */
+            margin-top: 10px; /* Margen superior para separar los botones */
+            background-color: hsl(194, 100%, 50%); /* Color de fondo del botón */
+            color: white; /* Color del texto del botón */
+            border: none; /* Sin borde */
+            border-radius: 5px; /* Bordes redondeados */
+            cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+            transition: background-color 0.3s, transform 0.2s; /* Transiciones para efectos de hover */
+            width: 100%; /* Ancho completo para el botón */
+        }
+
+        button:hover {
+            background-color: #1191b8; /* Color de fondo al pasar el cursor */
+            transform: scale(1.05); /* Aumenta el tamaño del botón ligeramente */
+        }
+
+        .hidden {
+            display: none; /* Clase para ocultar elementos */
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div> <!-- Contenedor para el fondo de partículas -->
+    <div class="container">
+        <div class="form-container">
+            <h1 class="title">Iniciar Sesión</h1> <!-- Título del formulario de inicio de sesión -->
+            <input type="email" id="receptionist-email" placeholder="Correo Electrónico" required> <!-- Campo de entrada para el correo -->
+            <input type="password" id="receptionist-password" placeholder="Contraseña" required minlength="8"> <!-- Campo de entrada para la contraseña -->
+            <button id="submit-receptionist-login">Iniciar Sesión</button> <!-- Botón para iniciar sesión -->
+            <button id="register-receptionist">Registrarse</button> <!-- Botón para mostrar el formulario de registro -->
+        </div>
+
+        <div id="receptionist-register" class="hidden form-container"> <!-- Contenedor oculto para el formulario de registro -->
+            <h1 class="title">Registro de Recepcionista</h1> <!-- Título del formulario de registro -->
+
+            <!-- Validación del nombre solo permite letras -->
+            <input type="text" id="receptionist-name" placeholder="Nombre" required pattern="[a-zA-Z\s]+" title="Solo se permiten letras"> <!-- Campo para nombre -->
+
+            <input type="text" id="receptionist-surname" placeholder="Apellido" required pattern="[a-zA-Z\s]+" title="Solo se permiten letras"> <!-- Campo para apellido -->
+
+            <!-- Validación automática para el correo -->
+            <input type="email" id="receptionist-email-register" placeholder="Correo Electrónico" required> <!-- Campo para correo de registro -->
+
+            <!-- Validación de contraseña con longitud mínima -->
+            <input type="password" id="receptionist-password-register" placeholder="Contraseña" required minlength="8"> <!-- Campo para contraseña de registro -->
+            
+            <!-- Select de Turno con opción múltiple -->
+            <select id="receptionist-shift" multiple required> <!-- Selector para turno -->
+                <option value="Mañana">Mañana</option> <!-- Opción para turno de mañana -->
+                <option value="Tarde">Tarde</option> <!-- Opción para turno de tarde -->
+                <option value="Noche">Noche</option> <!-- Opción para turno de noche -->
+            </select>
+
+            <input type="text" id="special-code-receptionist" placeholder="Código Especial (REC123)" required> <!-- Campo para código especial -->
+            <button id="submit-receptionist-register">Registrar Recepcionista</button> <!-- Botón para registrar al recepcionista -->
+        </div>
+    </div>
+
+    <script>
+        // Función para abrir la base de datos
+        const openDatabase = () => {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open('ClinicaDB', 2); // Intenta abrir la base de datos 'ClinicaDB'
+
+                request.onupgradeneeded = function(event) {
+                    const db = event.target.result;
+                    if (!db.objectStoreNames.contains('recepcionistas')) {
+                        db.createObjectStore('recepcionistas', { keyPath: 'email' }); // Crea el almacén de objetos si no existe
+                        console.log('Object store "recepcionistas" creado con éxito.'); // Mensaje en consola
+                    }
+                };
+
+                request.onsuccess = function(event) {
+                    console.log('Base de datos abierta con éxito.'); // Mensaje en consola
+                    resolve(event.target.result); // Resuelve la promesa con la base de datos
+                };
+
+                request.onerror = function(event) {
+                    console.error('Error al abrir la base de datos:', event.target.error); // Mensaje de error en consola
+                    reject(new Error('Error al abrir la base de datos: ' + event.target.error)); // Rechaza la promesa con el error
+                };
+
+                request.onblocked = function() {
+                    console.warn('La base de datos está bloqueada.'); // Mensaje de advertencia en consola
+                };
+            });
+        };
+
+        // Función para registrar un recepcionista
+        const registerReceptionist = (email, password, name, surname, shift, specialCode) => {
+            return new Promise((resolve, reject) => {
+                openDatabase().then(db => {
+                    const transaction = db.transaction('recepcionistas', 'readwrite'); // Inicia una transacción de escritura
+                    const store = transaction.objectStore('recepcionistas'); // Obtiene el almacén de objetos
+                    const receptionistData = { email, password, name, surname, shift, specialCode }; // Crea un objeto con los datos del recepcionista
+
+                    const request = store.add(receptionistData); // Intenta añadir el recepcionista
+
+                    request.onsuccess = () => {
+                        console.log('Recepcionista registrado exitosamente:', receptionistData); // Mensaje en consola
+                        resolve(receptionistData); // Resuelve la promesa
+                    };
+
+                    request.onerror = (event) => {
+                        console.error('Error al registrar el recepcionista:', event.target.error); // Mensaje de error en consola
+                        reject(new Error('Error al registrar el recepcionista: ' + event.target.error)); // Rechaza la promesa con el error
+                    };
+                }).catch(reject); // Rechaza la promesa si hay un error al abrir la base de datos
+            });
+        };
+
+        // Función para manejar el registro de recepcionistas
+        document.getElementById('submit-receptionist-register').onclick = function() {
+            const email = document.getElementById('receptionist-email-register').value; // Obtiene el correo
+            const password = document.getElementById('receptionist-password-register').value; // Obtiene la contraseña
+            const name = document.getElementById('receptionist-name').value; // Obtiene el nombre
+            const surname = document.getElementById('receptionist-surname').value; // Obtiene el apellido
+            const shift = Array.from(document.getElementById('receptionist-shift').selectedOptions).map(option => option.value); // Obtiene los turnos seleccionados
+            const specialCode = document.getElementById('special-code-receptionist').value; // Obtiene el código especial
+
+            registerReceptionist(email, password, name, surname, shift, specialCode) // Llama a la función de registro
+                .then(() => {
+                    alert('Recepcionista registrado con éxito.'); // Mensaje de éxito
+                    document.getElementById('receptionist-register').classList.add('hidden'); // Oculta el formulario de registro
+                    document.querySelector('.form-container').classList.remove('hidden'); // Muestra el formulario de inicio de sesión
+                })
+                .catch(error => {
+                    alert(error.message); // Muestra el mensaje de error
+                });
+        };
+
+        // Función para manejar el inicio de sesión
+        document.getElementById('submit-receptionist-login').onclick = function() {
+            const email = document.getElementById('receptionist-email').value; // Obtiene el correo del inicio de sesión
+            const password = document.getElementById('receptionist-password').value; // Obtiene la contraseña del inicio de sesión
+
+            // Aquí iría la lógica para verificar el inicio de sesión
+            alert(`Iniciar sesión como: ${email}`); // Mensaje temporal
+        };
+
+        // Función para mostrar el formulario de registro
+        document.getElementById('register-receptionist').onclick = function() {
+            document.getElementById('receptionist-register').classList.remove('hidden'); // Muestra el formulario de registro
+            document.querySelector('.form-container').classList.add('hidden'); // Oculta el formulario de inicio de sesión
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 100, density: { enable: true, value_area: 800 } },
+                color: { value: "#ffffff" },
+                shape: {
+                    type: "circle",
+                    stroke: { width: 0, color: "#000000" },
+                    polygon: { nb_sides: 5 }
+                },
+                opacity: { value: 0.5, random: false, anim: { enable: false } },
+                size: { value: 5, random: true, anim: { enable: false } },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#ffffff",
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 10,
+                    direction: "none",
+                    random: false,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: { enable: false, rotateX: 600, rotateY: 1200 }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                },
+                modes: {
+                    grab: { distance: 400, line_linked: { opacity: 1 } },
+                    bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+                    repulse: { distance: 200, duration: 1 },
+                    push: { particles_nb: 4 },
+                    remove: { particles_nb: 2 }
+                }
+            },
+            retina_detect: true
+        });
+
+        document.getElementById('doctor-button').addEventListener('click', () => {
+            window.location.href = 'medico.html'; // Redirige a medico.html
+        });
+
+        document.getElementById('receptionist-button').addEventListener('click', () => {
+            window.location.href = 'recepcionista.html'; // Redirige a recepcionista.html
+        });
+    </script>
+</body>
+</html>

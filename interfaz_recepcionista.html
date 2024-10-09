@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Configuración del documento -->
+    <meta charset="UTF-8"> <!-- Establece la codificación de caracteres a UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Hace que el diseño sea receptivo en dispositivos móviles -->
+    <title>Registro y Consulta de Pacientes</title> <!-- Título que aparece en la pestaña del navegador -->
+    <link rel="stylesheet" href="interfaz.css"> <!-- Vincula la hoja de estilo CSS para el diseño -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles/dist/tsparticles.min.js"></script> <!-- Carga la librería de partículas para efectos visuales -->
+</head>
+<body>
+
+<div id="tsparticles"></div> <!-- Contenedor para las partículas de fondo -->
+
+<div class="container"> <!-- Contenedor principal para el formulario -->
+    <!-- Formulario de Registro -->
+    <div class="form-container"> <!-- Contenedor para el formulario de registro -->
+        <h2>Registro de Pacientes</h2> <!-- Título del formulario de registro -->
+        <form id="registrationForm"> <!-- Formulario de registro -->
+            <!-- Campos de entrada para los datos del paciente -->
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" required> <!-- Campo de entrada para el nombre -->
+            <span class="error" id="nombreError"></span> <!-- Mensaje de error para el nombre -->
+
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" required> <!-- Campo de entrada para el apellido -->
+            <span class="error" id="apellidoError"></span> <!-- Mensaje de error para el apellido -->
+
+            <label for="cedula">Cédula:</label>
+            <input type="text" id="cedula" required> <!-- Campo de entrada para la cédula -->
+            <span class="error" id="cedulaError"></span> <!-- Mensaje de error para la cédula -->
+
+            <label for="correo">Correo:</label>
+            <input type="email" id="correo" required> <!-- Campo de entrada para el correo electrónico -->
+            <span class="error" id="correoError"></span> <!-- Mensaje de error para el correo -->
+
+            <label for="telefono">Teléfono:</label>
+            <input type="text" id="telefono" required> <!-- Campo de entrada para el número de teléfono -->
+            <span class="error" id="telefonoError"></span> <!-- Mensaje de error para el teléfono -->
+
+            <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+            <input type="date" id="fechaNacimiento" required> <!-- Campo de entrada para la fecha de nacimiento -->
+
+            <label for="tipoSangre">Tipo de Sangre:</label>
+            <select id="tipoSangre" required> <!-- Menú desplegable para seleccionar el tipo de sangre -->
+                <option value="">Seleccionar</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+            </select>
+            <span class="error" id="tipoSangreError"></span> <!-- Mensaje de error para el tipo de sangre -->
+
+            <label for="enfermedades">Enfermedades Crónicas:</label>
+            <input type="text" id="enfermedades" placeholder="Ej. Diabetes, Hipertensión"> <!-- Campo de entrada para enfermedades crónicas -->
+
+            <label for="alergias">Alergias:</label>
+            <input type="text" id="alergias" placeholder="Ej. Polen, Medicamentos"> <!-- Campo de entrada para alergias -->
+
+            <button type="submit">Registrar Paciente</button> <!-- Botón para enviar el formulario -->
+        </form>
+    </div>
+
+    <!-- Formulario de Consulta -->
+    <div class="consult-container"> <!-- Contenedor para el formulario de consulta -->
+        <h2>Consultar Paciente</h2> <!-- Título del formulario de consulta -->
+        <form id="consultForm"> <!-- Formulario de consulta -->
+            <label for="consultCedula">Cédula:</label>
+            <input type="text" id="consultCedula" required> <!-- Campo de entrada para la cédula del paciente a consultar -->
+            <button type="submit">Consultar</button> <!-- Botón para enviar la consulta -->
+        </form>
+        <div class="info" id="patientInfo"> <!-- Contenedor para mostrar la información del paciente -->
+            <h3>Datos del Paciente</h3> <!-- Título de la sección de información del paciente -->
+            <p id="infoNombre"></p> <!-- Parrafo para el nombre del paciente -->
+            <p id="infoApellido"></p> <!-- Parrafo para el apellido del paciente -->
+            <p id="infoCedula"></p> <!-- Parrafo para la cédula del paciente -->
+            <p id="infoCorreo"></p> <!-- Parrafo para el correo del paciente -->
+            <p id="infoTelefono"></p> <!-- Parrafo para el teléfono del paciente -->
+            <p id="infoFechaNacimiento"></p> <!-- Parrafo para la fecha de nacimiento del paciente -->
+            <p id="infoTipoSangre"></p> <!-- Parrafo para el tipo de sangre del paciente -->
+            <p id="infoEnfermedades"></p> <!-- Parrafo para las enfermedades crónicas del paciente -->
+            <p id="infoAlergias"></p> <!-- Parrafo para las alergias del paciente -->
+        </div>
+    </div>
+</div>
+
+<script>
+    // Inicializar las partículas
+    tsParticles.load("tsparticles", { // Configura el efecto de partículas en el fondo
+        particles: {
+            number: {
+                value: 80, // Número de partículas
+                density: {
+                    enable: true,
+                    value_area: 800 // Área de densidad de partículas
+                }
+            },
+            color: {
+                value: "#ffffff" // Color de las partículas
+            },
+            shape: {
+                type: "circle", // Forma de las partículas
+                stroke: {
+                    width: 0,
+                    color: "#000000"
+                },
+                polygon: {
+                    nb_sides: 5 // Número de lados si se usa la forma de polígono
+                }
+            },
+            opacity: {
+                value: 0.5, // Opacidad de las partículas
+                random: false,
+                anim: {
+                    enable: false,
+                    speed: 1,
+                    opacity_min: 0.1,
+                    sync: false
+                }
+            },
+            size: {
+                value: 5, // Tamaño de las partículas
+                random: true,
+                anim: {
+                    enable: false,
+                    speed: 40,
+                    size_min: 0.1,
+                    sync: false
+                }
+            },
+            line_linked: {
+                enable: true,
+                distance: 150, // Distancia entre líneas conectadas
+                color: "#ffffff", // Color de las líneas
+                opacity: 0.4, // Opacidad de las líneas
+                width: 1 // Ancho de las líneas
+            },
+            move: {
+                enable: true,
+                speed: 6, // Velocidad de movimiento de las partículas
+                direction: "none",
+                random: false,
+                straight: false,
+                out_mode: "out", // Comportamiento de las partículas al salir del área
+                bounce: false,
+                attract: {
+                    enable: false,
+                    rotateX: 600,
+                    rotateY: 1200
+                }
+            }
+        },
+        interactivity: {
+            detect_on: "canvas", // Detección de eventos en el canvas
+            events: {
+                onhover: {
+                    enable: true,
+                    mode: "repulse" // Efecto al pasar el ratón sobre las partículas
+                },
+                onclick: {
+                    enable: true,
+                    mode: "push" // Efecto al hacer clic en el canvas
+                },
+                resize: true // Redimensionar las partículas al cambiar el tamaño de la ventana
+            },
+            modes: {
+                grab: {
+                    distance: 400, // Distancia para que las partículas se atraigan
+                    line_linked: {
+                        opacity: 1 // Opacidad de las líneas de atracción
+                    }
+                },
+                bubble: {
+                    distance: 400, // Distancia para efecto burbuja
+                    size: 40, // Tamaño de la burbuja
+                    duration: 2, // Duración del efecto
+                    opacity: 8,
+                    speed: 3
+                },
+                repulse: {
+                    distance: 200, // Distancia para repulsión
+                    duration: 0.4 // Duración de la repulsión
+                },
+                push: {
+                    particles_nb: 4 // Número de partículas añadidas al hacer clic
+                },
+                remove: {
+                    particles_nb: 2 // Número de partículas eliminadas
+                }
+            }
+        },
+        retina_detect: true // Detectar pantallas retina
+    });
+
+    // Guardar paciente en localStorage
+    document.getElementById("registrationForm").onsubmit = function(event) {
+        event.preventDefault(); // Evita que el formulario se envíe de forma predeterminada
+
+        // Obtener valores de los campos del formulario
+        const nombre = document.getElementById("nombre").value;
+        const apellido = document.getElementById("apellido").value;
+        const cedula = document.getElementById("cedula").value;
+        const correo = document.getElementById("correo").value;
+        const telefono = document.getElementById("telefono").value;
+        const fechaNacimiento = document.getElementById("fechaNacimiento").value;
+        const tipoSangre = document.getElementById("tipoSangre").value;
+        const enfermedades = document.getElementById("enfermedades").value;
+        const alergias = document.getElementById("alergias").value;
+
+        // Crear un objeto paciente
+        const paciente = {
+            nombre,
+            apellido,
+            cedula,
+            correo,
+            telefono,
+            fechaNacimiento,
+            tipoSangre,
+            enfermedades,
+            alergias
+        };
+
+        // Guardar el objeto paciente en localStorage
+        localStorage.setItem(cedula, JSON.stringify(paciente));
+
+        // Limpiar el formulario
+        document.getElementById("registrationForm").reset();
+        alert("Paciente registrado exitosamente.");
+    };
+
+    // Consultar paciente en localStorage
+    document.getElementById("consultForm").onsubmit = function(event) {
+        event.preventDefault(); // Evita que el formulario se envíe de forma predeterminada
+
+        // Obtener la cédula a consultar
+        const cedula = document.getElementById("consultCedula").value;
+
+        // Obtener el objeto paciente del localStorage
+        const paciente = JSON.parse(localStorage.getItem(cedula));
+
+        // Mostrar los datos del paciente
+        const patientInfo = document.getElementById("patientInfo");
+        if (paciente) {
+            document.getElementById("infoNombre").innerText = "Nombre: " + paciente.nombre;
+            document.getElementById("infoApellido").innerText = "Apellido: " + paciente.apellido;
+            document.getElementById("infoCedula").innerText = "Cédula: " + paciente.cedula;
+            document.getElementById("infoCorreo").innerText = "Correo: " + paciente.correo;
+            document.getElementById("infoTelefono").innerText = "Teléfono: " + paciente.telefono;
+            document.getElementById("infoFechaNacimiento").innerText = "Fecha de Nacimiento: " + paciente.fechaNacimiento;
+            document.getElementById("infoTipoSangre").innerText = "Tipo de Sangre: " + paciente.tipoSangre;
+            document.getElementById("infoEnfermedades").innerText = "Enfermedades Crónicas: " + paciente.enfermedades;
+            document.getElementById("infoAlergias").innerText = "Alergias: " + paciente.alergias;
+        } else {
+            alert("No se encontró un paciente con esa cédula.");
+            patientInfo.innerHTML = ""; // Limpiar la información previa
+        }
+    };
+</script>
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 100, density: { enable: true, value_area: 800 } },
+                color: { value: "#ffffff" },
+                shape: {
+                    type: "circle",
+                    stroke: { width: 0, color: "#000000" },
+                    polygon: { nb_sides: 5 }
+                },
+                opacity: { value: 0.5, random: false, anim: { enable: false } },
+                size: { value: 5, random: true, anim: { enable: false } },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#ffffff",
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 10,
+                    direction: "none",
+                    random: false,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: { enable: false, rotateX: 600, rotateY: 1200 }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                },
+                modes: {
+                    grab: { distance: 400, line_linked: { opacity: 1 } },
+                    bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+                    repulse: { distance: 200, duration: 1 },
+                    push: { particles_nb: 4 },
+                    remove: { particles_nb: 2 }
+                }
+            },
+            retina_detect: true
+        });
+
+        document.getElementById('doctor-button').addEventListener('click', () => {
+            window.location.href = 'medico.html'; // Redirige a medico.html
+        });
+
+        document.getElementById('receptionist-button').addEventListener('click', () => {
+            window.location.href = 'recepcionista.html'; // Redirige a recepcionista.html
+        });
+    </script>
+</body>
+</html>

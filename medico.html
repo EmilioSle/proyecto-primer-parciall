@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Registro Médico</title>
+    <style>
+        /* Estilos */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .container {
+            display: flex;
+            gap: 50px; /* Espacio entre los formularios */
+            text-align: center;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .form-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.5s ease-out;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .title {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input, select {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: hsl(194, 100%, 50%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #1191b8;
+            transform: scale(1.05);
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="container">
+        <div class="form-container">
+            <h1 class="title">Iniciar Sesión Médico</h1>
+            <input type="email" id="doctor-email" placeholder="Correo Electrónico" required>
+            <input type="password" id="doctor-password" placeholder="Contraseña" required minlength="8">
+            <button type="button" id="submit-doctor-login">Iniciar Sesión</button>
+            <button type="button" id="register-doctor">Registrarse</button>
+        </div>
+
+        <div id="doctor-register" class="hidden form-container">
+            <h1 class="title">Registro Médico</h1>
+            <input type="text" id="doctor-name" placeholder="Nombre" required pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+" title="Solo se permiten letras">
+            <input type="text" id="doctor-surname" placeholder="Apellido" required pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+" title="Solo se permiten letras">
+            <input type="email" id="doctor-email-register" placeholder="Correo Electrónico" required>
+            <input type="password" id="doctor-password-register" placeholder="Contraseña" required pattern="(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}" title="La contraseña debe tener al menos 8 caracteres, incluyendo al menos una letra y un número.">
+            <input type="text" id="doctor-specialty" placeholder="Especialidad" required pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+" title="Solo se permiten letras">
+            <select id="doctor-shift" required>
+                <option value="" disabled selected>Seleccionar Turno</option>
+                <option value="Mañana">Mañana</option>
+                <option value="Tarde">Tarde</option>
+                <option value="Noche">Noche</option>
+            </select>
+            <input type="text" id="special-code-doctor" placeholder="Código Especial (MED123)" required>
+            <button type="submit" id="submit-doctor-register">Registrar Médico</button>
+            <button type="button" id="cancel-registration">Cancelar</button>
+        </div>
+    </div>
+
+    <script>
+        // Evento para registrar médico
+        document.getElementById('submit-doctor-register').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevenir el envío del formulario
+            
+            // Obtener valores de los campos y eliminar espacios en blanco
+            const nombre = document.getElementById('doctor-name').value.trim();
+            const apellido = document.getElementById('doctor-surname').value.trim();
+            const correo = document.getElementById('doctor-email-register').value.trim();
+            const password = document.getElementById('doctor-password-register').value.trim();
+            const especialidad = document.getElementById('doctor-specialty').value.trim();
+            const turno = document.getElementById('doctor-shift').value;
+            const codigoEspecial = document.getElementById('special-code-doctor').value.trim();
+
+            // Validar que no haya campos vacíos
+            if (!nombre || !apellido || !correo || !password || !especialidad || !turno || !codigoEspecial) {
+                alert('Por favor, complete todos los campos.');
+                return;
+            }
+
+            // Validar el código especial
+            if (codigoEspecial !== 'MED123') {
+                alert('Código especial incorrecto.');
+                return;
+            }
+
+            // Crear objeto médico
+            const doctor = {
+                nombre,
+                apellido,
+                correo,
+                password,
+                especialidad,
+                turno
+            };
+
+            // Guardar en localStorage
+            localStorage.setItem(`medico_${correo}`, JSON.stringify(doctor));
+            alert('Médico registrado con éxito.');
+
+            // Mostrar opción de inicio de sesión
+            document.getElementById('doctor-register').classList.add('hidden'); // Ocultar registro
+            document.querySelector('.form-container').classList.remove('hidden'); // Mostrar inicio de sesión
+
+            limpiarFormularioRegistro();
+        });
+
+        // Limpiar los campos del formulario de registro
+        const limpiarFormularioRegistro = () => {
+            document.getElementById('doctor-name').value = '';
+            document.getElementById('doctor-surname').value = '';
+            document.getElementById('doctor-email-register').value = '';
+            document.getElementById('doctor-password-register').value = '';
+            document.getElementById('doctor-specialty').value = '';
+            document.getElementById('doctor-shift').value = '';
+            document.getElementById('special-code-doctor').value = '';
+        };
+
+        // Manejar el clic en el botón de inicio de sesión
+        document.getElementById('submit-doctor-login').addEventListener('click', (event) => {
+            const email = document.getElementById('doctor-email').value.trim();
+            const password = document.getElementById('doctor-password').value.trim();
+
+            const doctorData = JSON.parse(localStorage.getItem(`medico_${email}`));
+
+            if (doctorData && doctorData.password === password) {
+                alert('Inicio de sesión exitoso');
+                // Redirigir a la interfaz del médico
+                window.location.href = 'interfaz_medico.html'; // Descomentar y poner la ruta real
+            } else {
+                alert('Correo o contraseña incorrectos.');
+            }
+        });
+
+        // Mostrar formulario de registro al hacer clic en "Registrarse"
+        document.getElementById('register-doctor').addEventListener('click', () => {
+            document.querySelector('.form-container').classList.add('hidden'); // Ocultar inicio de sesión
+            document.getElementById('doctor-register').classList.remove('hidden'); // Mostrar registro
+        });
+
+        // Cancelar registro y volver a inicio de sesión
+        document.getElementById('cancel-registration').addEventListener('click', () => {
+            document.getElementById('doctor-register').classList.add('hidden'); // Ocultar registro
+            document.querySelector('.form-container').classList.remove('hidden'); // Mostrar inicio de sesión
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 100, density: { enable: true, value_area: 800 } },
+                color: { value: "#ffffff" },
+                shape: {
+                    type: "circle",
+                    stroke: { width: 0, color: "#000000" },
+                    polygon: { nb_sides: 5 }
+                },
+                opacity: { value: 0.5, random: false, anim: { enable: false } },
+                size: { value: 5, random: true, anim: { enable: false } },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#ffffff",
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 10,
+                    direction: "none",
+                    random: false,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: { enable: false, rotateX: 600, rotateY: 1200 }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                },
+                modes: {
+                    grab: { distance: 400, line_linked: { opacity: 1 } },
+                    bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+                    repulse: { distance: 200, duration: 1 },
+                    push: { particles_nb: 4 },
+                    remove: { particles_nb: 2 }
+                }
+            },
+            retina_detect: true
+        });
+
+        document.getElementById('doctor-button').addEventListener('click', () => {
+            window.location.href = 'medico.html'; // Redirige a medico.html
+        });
+
+        document.getElementById('receptionist-button').addEventListener('click', () => {
+            window.location.href = 'recepcionista.html'; // Redirige a recepcionista.html
+        });
+    </script>
+</body>
+</html>
+

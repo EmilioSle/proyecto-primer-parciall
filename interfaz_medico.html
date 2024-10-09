@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta y Registro de Pacientes - Médico</title>
+    <link rel="stylesheet" href="interfaz.css">
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles/dist/tsparticles.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif; /* Define la fuente del cuerpo */
+            margin: 0; /* Elimina el margen por defecto */
+            padding: 20px; /* Añade padding al cuerpo */
+            background-color: #f4f4f9; /* Color de fondo */
+        }
+
+        .container {
+            display: flex; /* Usar flexbox para el contenedor */
+            justify-content: space-around; /* Espaciado entre elementos */
+            flex-wrap: wrap; /* Permite que los elementos se envuelvan */
+            margin-top: 20px; /* Margen superior */
+        }
+
+        .box {
+            width: 30%; /* Ancho de cada caja */
+            padding: 20px; /* Espaciado interno */
+            background-color: #fff; /* Color de fondo de la caja */
+            border: 1px solid #ccc; /* Borde de la caja */
+            border-radius: 8px; /* Bordes redondeados */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra de la caja */
+        }
+
+        h2 {
+            font-size: 24px; /* Tamaño de fuente del encabezado */
+            margin-bottom: 20px; /* Margen inferior */
+        }
+
+        label {
+            display: block; /* Hace que la etiqueta ocupe toda la línea */
+            margin-bottom: 10px; /* Margen inferior */
+            font-weight: bold; /* Texto en negrita */
+        }
+
+        input, textarea, select {
+            width: 90%; /* Ancho de los campos de entrada */
+            padding: 10px; /* Espaciado interno */
+            margin-bottom: 20px; /* Margen inferior */
+            border: 1px solid #ccc; /* Borde de los campos */
+            border-radius: 4px; /* Bordes redondeados */
+        }
+
+        button {
+            padding: 10px 20px; /* Espaciado interno del botón */
+            background-color: #4ed8fa; /* Color de fondo del botón */
+            color: #fff; /* Color del texto del botón */
+            border: none; /* Sin borde */
+            border-radius: 4px; /* Bordes redondeados */
+            cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+        }
+
+        button:hover {
+            background-color: #273dff; /* Color de fondo al pasar el mouse */
+        }
+
+        .results {
+            margin-top: 20px; /* Margen superior */
+            background-color: #f9f9f9; /* Color de fondo de los resultados */
+            padding: 20px; /* Espaciado interno */
+            border: 1px solid #ccc; /* Borde de los resultados */
+            border-radius: 8px; /* Bordes redondeados */
+        }
+
+        .results p {
+            margin: 0; /* Elimina el margen de los párrafos */
+            font-size: 16px; /* Tamaño de fuente de los párrafos */
+        }
+
+        .error {
+            color: red; /* Color del texto de error */
+            margin-top: 10px; /* Margen superior */
+        }
+    </style>
+</head>
+<body>
+    <div id="tsparticles"></div>
+    <h1>Consulta y Registro de Pacientes - Médico</h1>
+
+    <div class="container">
+        <!-- Consulta Paciente -->
+        <div class="box">
+            <h2>Consultar Paciente</h2>
+            <label for="consultaCedula">Cédula del Paciente:</label>
+            <input type="text" id="consultaCedula" placeholder="Ingrese la cédula del paciente">
+            <button onclick="consultarPaciente()">Buscar Paciente</button>
+            <div id="consultaResultado" class="results"></div>
+        </div>
+
+        <!-- Registrar Nuevo Registro Médico -->
+        <div class="box">
+            <h2>Nuevo Registro Médico</h2>
+            <label for="cedulaPaciente">Cédula del Paciente:</label>
+            <input type="text" id="cedulaPaciente" placeholder="Ingrese la cédula del paciente">
+
+            <label for="fechaConsulta">Fecha de Consulta:</label>
+            <input type="date" id="fechaConsulta">
+
+            <label for="diagnostico">Diagnóstico:</label>
+            <textarea id="diagnostico" placeholder="Escriba el diagnóstico"></textarea>
+
+            <label for="tratamiento">Tratamiento:</label>
+            <textarea id="tratamiento" placeholder="Describa el tratamiento"></textarea>
+
+            <label for="recetaMedica">Receta Médica:</label>
+            <textarea id="recetaMedica" placeholder="Escriba la receta médica"></textarea>
+
+            <label for="notas">Notas Adicionales:</label>
+            <textarea id="notas" placeholder="Escriba las notas adicionales"></textarea>
+
+            <button onclick="guardarRegistroMedico()">Guardar Registro Médico</button>
+            <div id="registroResultado" class="results"></div>
+            <div id="errorMensaje" class="error"></div> <!-- Para mostrar mensajes de error -->
+        </div>
+    </div>
+
+    <script>
+        // Función para consultar un paciente
+        function consultarPaciente() {
+            const cedula = document.getElementById('consultaCedula').value; // Obtiene la cédula ingresada
+            let pacienteEncontrado = false; // Bandera para saber si se encontró un paciente
+
+            // Obtiene los registros guardados desde localStorage
+            const registrosGuardados = JSON.parse(localStorage.getItem('registrosMedicos')) || [];
+
+            const resultadoDiv = document.getElementById('consultaResultado'); // Elemento para mostrar resultados
+            resultadoDiv.innerHTML = ''; // Limpia los resultados anteriores
+
+            // Filtrar registros por cédula
+            const registrosFiltrados = registrosGuardados.filter(registro => registro.cedulaPaciente === cedula);
+
+            // Ordenar los registros filtrados de último a primero
+            registrosFiltrados.sort((a, b) => b.idRegistro - a.idRegistro);
+
+            // Mostrar registros filtrados
+            registrosFiltrados.forEach(registro => {
+                pacienteEncontrado = true; // Se encontró al menos un registro
+                const registroDiv = document.createElement('div');
+                registroDiv.innerHTML = `
+                    <p><strong>ID Registro:</strong> ${registro.idRegistro}</p>
+                    <p><strong>Cédula Paciente:</strong> ${registro.cedulaPaciente}</p>
+                    <p><strong>Fecha Consulta:</strong> ${registro.fechaConsulta}</p>
+                    <p><strong>Diagnóstico:</strong> ${registro.diagnostico}</p>
+                    <p><strong>Tratamiento:</strong> ${registro.tratamiento}</p>
+                    <p><strong>Receta Médica:</strong> ${registro.recetaMedica}</p>
+                    <p><strong>Notas:</strong> ${registro.notas}</p>
+                    <hr>
+                `;
+                resultadoDiv.appendChild(registroDiv); // Añade el registro al elemento de resultados
+            });
+
+            if (!pacienteEncontrado) {
+                resultadoDiv.innerHTML = '<p>No se encontraron registros para este paciente.</p>'; // Mensaje si no se encontró el paciente
+            }
+        }
+
+        // Función para guardar un nuevo registro médico
+        function guardarRegistroMedico() {
+            const cedulaPaciente = document.getElementById('cedulaPaciente').value; // Cédula del paciente
+            const fechaConsulta = document.getElementById('fechaConsulta').value; // Fecha de consulta
+            const diagnostico = document.getElementById('diagnostico').value; // Diagnóstico
+            const tratamiento = document.getElementById('tratamiento').value; // Tratamiento
+            const recetaMedica = document.getElementById('recetaMedica').value; // Receta médica
+            const notas = document.getElementById('notas').value; // Notas adicionales
+
+            const errorMensajeDiv = document.getElementById('errorMensaje'); // Elemento para mostrar mensajes de error
+            errorMensajeDiv.innerHTML = ''; // Limpiar mensajes de error
+
+            // Validación de campos vacíos
+            if (!cedulaPaciente || !fechaConsulta || !diagnostico || !tratamiento || !recetaMedica) {
+                errorMensajeDiv.innerHTML = '<p>Por favor, complete todos los campos obligatorios.</p>'; // Mensaje de error si falta información
+                return; // Salir de la función si hay campos vacíos
+            }
+
+            // Obtener registros existentes desde localStorage
+            const registrosGuardados = JSON.parse(localStorage.getItem('registrosMedicos')) || [];
+
+            const nuevoRegistro = {
+                idRegistro: Date.now(), // Generar un ID único para el registro
+                cedulaPaciente,
+                fechaConsulta,
+                diagnostico,
+                tratamiento,
+                recetaMedica,
+                notas
+            };
+
+            // Guardar el nuevo registro
+            registrosGuardados.push(nuevoRegistro); // Añadir nuevo registro a la lista
+            localStorage.setItem('registrosMedicos', JSON.stringify(registrosGuardados)); // Guardar en localStorage
+
+            // Mostrar mensaje de éxito
+            const resultadoDiv = document.getElementById('registroResultado'); // Elemento para mostrar resultados
+            resultadoDiv.innerHTML = `<p>Registro médico guardado exitosamente.</p>`; // Mensaje de éxito
+
+            // Limpiar campos después de guardar
+            document.getElementById('cedulaPaciente').value = '';
+            document.getElementById('fechaConsulta').value = '';
+            document.getElementById('diagnostico').value = '';
+            document.getElementById('tratamiento').value = '';
+            document.getElementById('recetaMedica').value = '';
+            document.getElementById('notas').value = '';
+        }
+
+        // Inicializar la animación de partículas en el fondo
+        tsParticles.load("tsparticles", {
+            fullScreen: {
+                enable: true, // Activar pantalla completa
+                zIndex: 1 // Z-index para la animación
+            },
+            particles: {
+                number: {
+                    value: 50, // Número de partículas
+                    density: {
+                        enable: true, // Activar densidad
+                        value_area: 800 // Área de densidad
+                    }
+                },
+                color: {
+                    value: "#00bcd4" // Color de las partículas
+                },
+                shape: {
+                    type: "circle", // Forma de las partículas
+                    stroke: {
+                        width: 0, // Sin borde
+                        color: "#000000" // Color del borde
+                    },
+                    polygon: {
+                        nb_sides: 5 // Número de lados para formas de polígonos
+                    },
+                },
+                opacity: {
+                    value: 0.5, // Opacidad de las partículas
+                    random: false, // No aleatorio
+                    anim: {
+                        enable: false, // Sin animación de opacidad
+                        speed: 1, // Velocidad
+                        opacity_min: 0.1, // Opacidad mínima
+                        sync: false // Sin sincronización
+                    }
+                },
+                size: {
+                    value: 5, // Tamaño de las partículas
+                    random: true, // Tamaño aleatorio
+                    anim: {
+                        enable: false, // Sin animación de tamaño
+                        speed: 40, // Velocidad
+                        size_min: 0.1, // Tamaño mínimo
+                        sync: false // Sin sincronización
+                    }
+                },
+                line_linked: {
+                    enable: true, // Activar enlaces entre partículas
+                    distance: 150, // Distancia entre enlaces
+                    color: "#00bcd4", // Color de los enlaces
+                    opacity: 0.4, // Opacidad de los enlaces
+                    width: 2, // Ancho de los enlaces
+                    shadow: {
+                        enable: false, // Sin sombra
+                        color: "#00bcd4", // Color de sombra
+                        blur: 5 // Desenfoque de sombra
+                    }
+                },
+                move: {
+                    enable: true, // Activar movimiento de partículas
+                    speed: 6, // Velocidad de movimiento
+                    direction: "none", // Sin dirección específica
+                    random: false, // Sin aleatoriedad
+                    straight: false, // Sin movimiento en línea recta
+                    out_mode: "out", // Modo de salida de partículas
+                    bounce: false, // Sin rebote
+                    attract: {
+                        enable: false, // Sin atracción
+                        rotateX: 600, // Ángulo de rotación X
+                        rotateY: 1200 // Ángulo de rotación Y
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas", // Detectar interactividad en el canvas
+                events: {
+                    onhover: {
+                        enable: true, // Activar interactividad al pasar el mouse
+                        mode: "repulse" // Modo de repulsión al pasar el mouse
+                    },
+                    onclick: {
+                        enable: true, // Activar interactividad al hacer clic
+                        mode: "push" // Modo de añadir partículas al hacer clic
+                    },
+                    resize: true // Activar redimensionamiento
+                },
+                modes: {
+                    grab: {
+                        distance: 400, // Distancia de agarre
+                        line_linked: {
+                            opacity: 1 // Opacidad de la línea de agarre
+                        }
+                    },
+                    bubble: {
+                        distance: 400, // Distancia de burbuja
+                        size: 40, // Tamaño de burbuja
+                        duration: 2, // Duración de la burbuja
+                        opacity: 8, // Opacidad de la burbuja
+                        speed: 3 // Velocidad de la burbuja
+                    },
+                    repulse: {
+                        distance: 200, // Distancia de repulsión
+                        duration: 0.4 // Duración de la repulsión
+                    },
+                    push: {
+                        particles_nb: 4 // Número de partículas a añadir al hacer clic
+                    },
+                    remove: {
+                        particles_nb: 2 // Número de partículas a eliminar
+                    }
+                }
+            },
+            retina_detect: true // Detección de pantalla retina
+        });
+    </script>
+</body>
+</html>
+
+
+

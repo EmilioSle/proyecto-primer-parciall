@@ -1,0 +1,161 @@
+<!DOCTYPE html> <!-- Define el tipo de documento como HTML5 -->
+<html lang="es"> <!-- Establece el idioma de la página como español -->
+<head>
+    <meta charset="UTF-8"> <!-- Define la codificación de caracteres como UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Configura el viewport para responsividad -->
+    <link rel="stylesheet" href="index.css"> <!-- Enlaza la hoja de estilos CSS externa -->
+    <title>Sistema de gestión ClinicaDB</title> <!-- Título de la página -->
+    <style>
+        body { /* Estilos para el cuerpo de la página */
+            font-family: Arial, sans-serif; /* Fuente utilizada en el cuerpo */
+            margin: 0; /* Elimina el margen por defecto */
+            padding: 0; /* Elimina el padding por defecto */
+            background-color: #f4f4f9; /* Color de fondo de la página */
+            display: flex; /* Usar flexbox para centrar contenido */
+            justify-content: center; /* Centra el contenido horizontalmente */
+            align-items: center; /* Centra el contenido verticalmente */
+            height: 100vh; /* Altura del viewport completo */
+            position: relative; /* Permite posicionar elementos dentro de él */
+            overflow: hidden; /* Oculta el contenido que desborda */
+            opacity: 0; /* Comienza oculto para la animación de entrada */
+            animation: fadeIn 1s forwards; /* Añade animación de entrada */
+        }
+
+        @keyframes fadeIn { /* Define la animación fadeIn */
+            to { opacity: 1; } /* Al final de la animación, opacidad es 1 */
+        }
+
+        #particles-js { /* Estilos para el contenedor de partículas */
+            position: absolute; /* Posición absoluta para cubrir toda la pantalla */
+            width: 100%; /* Ancho completo */
+            height: 100%; /* Altura completa */
+            top: 0; /* Posiciona en la parte superior */
+            left: 0; /* Posiciona a la izquierda */
+            z-index: -1; /* Envía el contenedor de partículas detrás del contenido */
+        }
+
+        .container { /* Estilos para el contenedor principal */
+            text-align: center; /* Centra el texto dentro del contenedor */
+            background: #fff; /* Color de fondo blanco */
+            padding: 40px; /* Espaciado interno */
+            border-radius: 8px; /* Bordes redondeados */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra del contenedor */
+            animation: slideIn 0.5s ease-out; /* Animación de deslizamiento */
+        }
+
+        @keyframes slideIn { /* Define la animación slideIn */
+            from { transform: translateY(-20px); opacity: 0; } /* Comienza fuera de la vista */
+            to { transform: translateY(0); opacity: 1; } /* Termina en su posición final */
+        }
+
+        .title { /* Estilos para el título */
+            font-size: 2em; /* Tamaño de fuente del título */
+            margin-bottom: 20px; /* Margen inferior */
+            color: #333; /* Color del texto */
+        }
+
+        .description { /* Estilos para la descripción */
+            font-size: 1.2em; /* Tamaño de fuente de la descripción */
+            margin-bottom: 30px; /* Margen inferior */
+            color: #666; /* Color del texto */
+        }
+
+        .role-selection { /* Estilos para la selección de rol */
+            display: flex; /* Usar flexbox para alinear botones */
+            justify-content: center; /* Centra los botones horizontalmente */
+        }
+
+        .role-button { /* Estilos para los botones de rol */
+            padding: 15px 30px; /* Espaciado interno */
+            font-size: 1.2em; /* Tamaño de fuente */
+            margin: 0 10px; /* Margen horizontal */
+            background-color: hsl(194, 100%, 50%); /* Color de fondo del botón */
+            color: white; /* Color del texto del botón */
+            border: none; /* Sin borde */
+            border-radius: 5px; /* Bordes redondeados */
+            cursor: pointer; /* Cambia el cursor al pasar el mouse */
+            transition: background-color 0.3s, transform 0.2s; /* Transiciones suaves */
+        }
+
+        .role-button:hover { /* Estilos para el botón al pasar el mouse */
+            background-color: #1191b8; /* Cambio de color al pasar el mouse */
+            transform: scale(1.05); /* Efecto de zoom al pasar el mouse */
+        }
+    </style>
+</head>
+<body>
+    <!-- Contenedor para las partículas -->
+    <div id="particles-js"></div> <!-- Elemento para mostrar partículas de fondo -->
+
+    <div class="container"> <!-- Contenedor principal de la interfaz -->
+        <h1 class="title">Bienvenido a la Clínica</h1> <!-- Título principal -->
+        <p class="description">Aquí puedes gestionar la historia clínica de los pacientes de manera fácil y rápida.</p> <!-- Descripción del sistema -->
+        
+        <!-- Selección de rol -->
+        <div class="role-selection"> <!-- Contenedor para los botones de rol -->
+            <button class="role-button" id="doctor-button">Soy Médico</button> <!-- Botón para médicos -->
+            <button class="role-button" id="receptionist-button">Soy Recepcionista</button> <!-- Botón para recepcionistas -->
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> <!-- Carga la librería de partículas -->
+    <script>
+        // Inicializa las partículas
+        particlesJS("particles-js", { // Llama a la función de partículas con el ID "particles-js"
+            particles: { // Configuración de partículas
+                number: { value: 100, density: { enable: true, value_area: 800 } }, // Número de partículas y densidad
+                color: { value: "#ffffff" }, // Color de las partículas
+                shape: { // Forma de las partículas
+                    type: "circle", // Forma circular
+                    stroke: { width: 0, color: "#000000" }, // Sin borde
+                    polygon: { nb_sides: 5 } // Forma de polígono con 5 lados
+                },
+                opacity: { value: 0.5, random: false, anim: { enable: false } }, // Opacidad de partículas
+                size: { value: 5, random: true, anim: { enable: false } }, // Tamaño de las partículas
+                line_linked: { // Conexiones entre partículas
+                    enable: true, // Habilitar conexiones
+                    distance: 150, // Distancia para conectar partículas
+                    color: "#ffffff", // Color de las conexiones
+                    opacity: 0.4, // Opacidad de las conexiones
+                    width: 1 // Ancho de las conexiones
+                },
+                move: { // Configuración de movimiento de partículas
+                    enable: true, // Habilitar movimiento
+                    speed: 10, // Velocidad de movimiento
+                    direction: "none", // Sin dirección específica
+                    random: false, // Sin movimiento aleatorio
+                    straight: false, // No se mueve en línea recta
+                    out_mode: "out", // Las partículas salen del área
+                    bounce: false, // Sin rebote
+                    attract: { enable: false, rotateX: 600, rotateY: 1200 } // Sin atracción
+                }
+            },
+            interactivity: { // Configuración de interactividad
+                detect_on: "canvas", // Detectar interacciones en el lienzo
+                events: { // Eventos de interacción
+                    onhover: { enable: true, mode: "repulse" }, // Efecto de repulsión al pasar el mouse
+                    onclick: { enable: true, mode: "push" }, // Añadir partículas al hacer clic
+                    resize: true // Habilitar ajuste al redimensionar
+                },
+                modes: { // Modos de interacción
+                    grab: { distance: 400, line_linked: { opacity: 1 } }, // Agarrar partículas
+                    bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 }, // Efecto de burbuja
+                    repulse: { distance: 200, duration: 1 }, // Efecto de repulsión
+                    push: { particles_nb: 4 }, // Añadir partículas
+                    remove: { particles_nb: 2 } // Remover partículas
+                }
+            },
+            retina_detect: true // Detectar dispositivos de alta resolución
+        });
+
+        // Redirección al hacer clic en los botones
+        document.getElementById('doctor-button').addEventListener('click', () => { // Evento al hacer clic en el botón médico
+            window.location.href = 'medico.html'; // Redirige a medico.html
+        });
+
+        document.getElementById('receptionist-button').addEventListener('click', () => { // Evento al hacer clic en el botón recepcionista
+            window.location.href = 'recepcionista.html'; // Redirige a recepcionista.html
+        });
+    </script>
+</body>
+</html>

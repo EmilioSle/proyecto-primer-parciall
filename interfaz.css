@@ -1,0 +1,97 @@
+/* Estilo del cuerpo de la página */
+body {
+    font-family: 'Arial', sans-serif; /* Define la fuente de texto de la página */
+    margin: 0; /* Elimina los márgenes por defecto del navegador */
+    padding: 0; /* Elimina el padding por defecto del navegador */
+    display: flex; /* Usa el modelo de caja flexible para el diseño */
+    flex-direction: column; /* Organiza los elementos en una columna */
+    justify-content: center; /* Centra verticalmente los elementos */
+    align-items: center; /* Centra horizontalmente los elementos */
+    height: 100vh; /* Establece la altura del cuerpo al 100% de la ventana de visualización */
+    color: #333; /* Define el color del texto en un gris oscuro */
+    background: linear-gradient(to right, #ff9b3e, #04eeff); /* Aplica un degradado de fondo de color naranja a azul */
+    position: relative; /* Permite el uso de posicionamiento relativo en elementos hijos */
+}
+
+/* Contenedor principal que agrupa los formularios */
+.container {
+    display: flex; /* Usa el modelo de caja flexible para el diseño */
+    justify-content: space-around; /* Distribuye el espacio entre los elementos de manera uniforme */
+    align-items: flex-start; /* Alinea los elementos en la parte superior */
+    width: 80%; /* Establece el ancho al 80% del contenedor padre */
+    max-width: 1200px; /* Establece un ancho máximo de 1200px */
+    position: relative; /* Permite el uso de posicionamiento relativo en elementos hijos */
+    z-index: 1; /* Asegura que el contenedor esté por encima de otros elementos */
+}
+
+/* Estilo del contenedor de formulario */
+.form-container, .consult-container {
+    background: rgba(255, 255, 255, 0.9); /* Aplica un fondo blanco con opacidad */
+    padding: 20px; /* Añade espacio interno de 20px */
+    border-radius: 10px; /* Bordes redondeados de 10px */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Añade una sombra suave alrededor del contenedor */
+    width: 40%; /* Establece el ancho al 40% del contenedor padre */
+}
+
+/* Estilo del encabezado h2 */
+h2 {
+    text-align: center; /* Centra el texto del encabezado */
+    color: #000000; /* Establece el color del texto del encabezado a negro */
+}
+
+/* Estilo para las etiquetas de los formularios */
+label {
+    display: block; /* Hace que las etiquetas ocupen toda la línea */
+    margin: 10px 0 5px; /* Añade un margen vertical alrededor de la etiqueta */
+    font-weight: bold; /* Hace que el texto sea negrita */
+    color: #333; /* Establece el color del texto de la etiqueta en un gris oscuro */
+}
+
+/* Estilo para los campos de entrada */
+input[type="text"], input[type="email"], input[type="date"], select {
+    width: 90%; /* Establece el ancho al 90% del contenedor padre */
+    padding: 10px; /* Añade espacio interno de 10px */
+    border: 1px solid #ccc; /* Añade un borde gris claro */
+    border-radius: 5px; /* Bordes redondeados de 5px */
+    transition: border-color 0.3s; /* Transición suave al cambiar el color del borde */
+}
+
+/* Estilo para los campos de entrada al recibir el foco */
+input[type="text"]:focus, input[type="email"]:focus, input[type="date"]:focus, select:focus {
+    border-color: #0aa1f8; /* Cambia el color del borde a azul al recibir el foco */
+    outline: none; /* Elimina el contorno predeterminado del navegador */
+}
+
+/* Estilo para los botones */
+button {
+    background-color: #4e75c8; /* Establece el color de fondo del botón */
+    color: white; /* Establece el color del texto del botón en blanco */
+    border: none; /* Elimina el borde predeterminado del botón */
+    padding: 10px; /* Añade espacio interno de 10px */
+    border-radius: 5px; /* Bordes redondeados de 5px */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    width: 100%; /* Establece el ancho del botón al 100% del contenedor padre */
+    font-size: 16px; /* Establece el tamaño de fuente del texto del botón */
+    transition: background-color 0.3s; /* Transición suave al cambiar el color de fondo */
+}
+
+/* Estilo para el botón al pasar el cursor sobre él */
+button:hover {
+    background-color: #1309a7; /* Cambia el color de fondo al azul oscuro al pasar el cursor */
+}
+
+/* Estilo para los mensajes de error */
+.error {
+    color: #ff4d4d; /* Establece el color del texto del mensaje de error en rojo */
+    font-size: 14px; /* Establece el tamaño de fuente del mensaje de error */
+}
+
+/* Estilo para los mensajes de información */
+.info {
+    background: rgba(0, 0, 0, 0.1); /* Aplica un fondo negro con opacidad */
+    padding: 10px; /* Añade espacio interno de 10px */
+    border-radius: 5px; /* Bordes redondeados de 5px */
+    margin-top: 20px; /* Añade un margen superior de 20px */
+    color: #333; /* Establece el color del texto en un gris oscuro */
+}
+

@@ -1,0 +1,144 @@
+/* Estilos Generales */
+body {
+  font-family: Arial, sans-serif; /* Define la fuente de texto de la página */
+  margin: 0; /* Elimina los márgenes por defecto del navegador */
+  padding: 0; /* Elimina el padding por defecto del navegador */
+  height: 100vh; /* Establece la altura del cuerpo al 100% de la ventana de visualización */
+  background: linear-gradient(270deg, #05bef7, #feb47b); /* Aplica un degradado de fondo de azul a naranja */
+  background-size: 400% 400%; /* Define el tamaño del degradado para animarlo */
+  animation: gradient 15s ease infinite; /* Aplica una animación del degradado que dura 15 segundos y se repite indefinidamente */
+  display: flex; /* Usa el modelo de caja flexible para el diseño */
+  justify-content: center; /* Centra horizontalmente los elementos */
+  align-items: center; /* Centra verticalmente los elementos */
+  position: relative; /* Permite el uso de posicionamiento relativo en elementos hijos, como las partículas */
+}
+
+/* Estilos para las partículas */
+#particles-js {
+  position: fixed; /* Fija la posición para que cubra toda la ventana */
+  width: 100%; /* Establece el ancho al 100% del viewport */
+  height: 100%; /* Establece la altura al 100% del viewport */
+  top: 0; /* Alinea en la parte superior */
+  left: 0; /* Alinea en la parte izquierda */
+  z-index: -1; /* Asegura que las partículas estén detrás del contenido */
+}
+
+/* Estilos del contenedor principal */
+.container {
+  background-color: white; /* Establece un fondo blanco */
+  border-radius: 8px; /* Bordes redondeados de 8px */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Añade una sombra suave alrededor del contenedor */
+  padding: 20px; /* Añade espacio interno de 20px */
+  width: 400px; /* Establece un ancho fijo de 400px */
+  text-align: center; /* Centra el texto dentro del contenedor */
+  animation: fadeIn 0.5s ease-in-out; /* Aplica una animación de desvanecimiento al cargar */
+}
+
+/* Estilo del título */
+.title {
+  font-size: 24px; /* Establece el tamaño de fuente del título */
+  color: #333; /* Establece el color del texto en un gris oscuro */
+  margin-bottom: 10px; /* Añade un margen inferior de 10px */
+}
+
+/* Estilo de la descripción */
+.description {
+  color: #666; /* Establece el color del texto en un gris más claro */
+  margin-bottom: 20px; /* Añade un margen inferior de 20px */
+}
+
+/* Estilos de los botones */
+.role-button,
+button {
+  background-color: #3498db; /* Establece el color de fondo del botón */
+  color: white; /* Establece el color del texto del botón en blanco */
+  border: none; /* Elimina el borde predeterminado del botón */
+  border-radius: 5px; /* Bordes redondeados de 5px */
+  padding: 10px 15px; /* Añade espacio interno de 10px verticalmente y 15px horizontalmente */
+  margin: 5px; /* Añade un margen de 5px alrededor de los botones */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+  transition: background-color 0.3s, transform 0.3s; /* Transición suave al cambiar el color de fondo y aplicar transformación */
+}
+
+/* Efecto al pasar el cursor sobre los botones */
+.role-button:hover,
+button:hover {
+  background-color: #2980b9; /* Cambia el color de fondo al azul más oscuro al pasar el cursor */
+  transform: translateY(-2px); /* Eleva el botón ligeramente al pasar el cursor */
+}
+
+/* Estilos de los campos de entrada */
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  width: calc(100% - 20px); /* Establece el ancho al 100% menos 20px (por el padding) */
+  padding: 10px; /* Añade espacio interno de 10px */
+  margin: 10px 0; /* Añade un margen vertical de 10px */
+  border: 1px solid #ccc; /* Añade un borde gris claro */
+  border-radius: 5px; /* Bordes redondeados de 5px */
+  transition: border-color 0.3s; /* Transición suave al cambiar el color del borde */
+}
+
+/* Estilo de los campos de entrada al recibir el foco */
+input:focus {
+  border-color: #3498db; /* Cambia el color del borde a azul al recibir el foco */
+  outline: none; /* Elimina el contorno predeterminado del navegador */
+}
+
+/* Estilos para los encabezados h3 */
+h3 {
+  font-size: 18px; /* Establece el tamaño de fuente de h3 */
+  color: #333; /* Establece el color del texto en un gris oscuro */
+  margin: 10px 0; /* Añade un margen vertical de 10px */
+}
+
+/* Estilo para elementos ocultos */
+.hidden {
+  display: none; /* Oculta elementos con la clase 'hidden' */
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0; /* Comienza con una opacidad de 0 */
+  }
+  to {
+    opacity: 1; /* Termina con una opacidad de 1 */
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px); /* Comienza 20px por encima de su posición final */
+    opacity: 0; /* Comienza con una opacidad de 0 */
+  }
+  to {
+    transform: translateY(0); /* Termina en su posición final */
+    opacity: 1; /* Termina con una opacidad de 1 */
+  }
+}
+
+/* Animación de fondo */
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%; /* Comienza en la posición inicial del gradiente */
+  }
+  50% {
+    background-position: 100% 50%; /* Se mueve a la posición final del gradiente */
+  }
+  100% {
+    background-position: 0% 50%; /* Regresa a la posición inicial del gradiente */
+  }
+}
+
+/* Muestra el formulario con animación de entrada */
+.form {
+  animation: slideIn 0.5s ease forwards; /* Aplica una animación de deslizamiento al mostrar el formulario */
+}
+
+/* Diseño Responsivo */
+@media (max-width: 500px) {
+  .container {
+    width: 90%; /* Establece el ancho del contenedor al 90% en pantallas pequeñas */
+  }
+}
